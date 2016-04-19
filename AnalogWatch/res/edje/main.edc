@@ -1,0 +1,459 @@
+/*
+ * Copyright (c) 2016 Samsung Electronics Co., Ltd. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "../../inc/view_defines.h"
+
+#define STATE_IMAGE_UNPRESSED "default"
+#define STATE_IMAGE_PRESSED "state_image_pressed"
+
+#define IMAGE_FPATH_CIPHER_BOARD "../res/images/cipher_board_bg.png"
+#define IMAGE_FPATH_MISSED_CALLS_UNPRESSED "../res/images/icon_missed_calls.png"
+#define IMAGE_FPATH_MISSED_CALLS_PRESSED "../res/images/icon_missed_calls_pressed.png"
+#define IMAGE_FPATH_UNREAD_MESSAGES_UNPRESSED "../res/images/icon_unread_messages.png"
+#define IMAGE_FPATH_UNREAD_MESSAGES_PRESSED "../res/images/icon_unread_messages_pressed.png"
+#define IMAGE_FPATH_HANDS_CENTER "../res/images/hands_center.png"
+#define IMAGE_FPATH_HAND_HOUR "../res/images/hand_hour.png"
+#define IMAGE_FPATH_HAND_MINUTE "../res/images/hand_minute.png"
+#define IMAGE_FPATH_HAND_SECOND "../res/images/hand_second.png"
+#define IMAGE_FPATH_ICON_BADGE "../res/images/badge.png"
+
+#define PART_BACKGROUND "background"
+#define PART_HAND_HOUR "hand_hour"
+#define PART_HAND_MINUTE "hand_minute"
+#define PART_ICON_LEFT "icon_left"
+#define PART_ICON_RIGHT "icon_right"
+#define PART_MISSED_CALLS_BADGE_COUNTER "missed_calls_badge_counter"
+#define PART_UNREAD_MESSAGES_BADGE_COUNTER "unread_messages_badge_counter"
+
+styles
+{
+	style
+	{
+		name: "badge_style";
+		base: "font="default" font_size=18 align=center color=#ffffffff style=shadow,bottom shadow_color=#999999ff";
+	}
+}
+
+collections {
+	images {
+		image: IMAGE_FPATH_CIPHER_BOARD COMP;
+		image: IMAGE_FPATH_MISSED_CALLS_UNPRESSED COMP;
+		image: IMAGE_FPATH_MISSED_CALLS_PRESSED COMP;
+		image: IMAGE_FPATH_UNREAD_MESSAGES_UNPRESSED COMP;
+		image: IMAGE_FPATH_UNREAD_MESSAGES_PRESSED COMP;
+		image: IMAGE_FPATH_HANDS_CENTER COMP;
+		image: IMAGE_FPATH_HAND_HOUR COMP;
+		image: IMAGE_FPATH_HAND_MINUTE COMP;
+		image: IMAGE_FPATH_HAND_SECOND COMP;
+		image: IMAGE_FPATH_ICON_BADGE COMP;
+	}
+
+	group {
+		name: "main";
+		parts {
+			part {
+				name: PART_BACKGROUND;
+				type: IMAGE;
+				scale: 1;
+				description {
+					state: "default" 0.0;
+					image { normal: IMAGE_FPATH_CIPHER_BOARD; }
+					align: 0.0 0.0;
+					rel1 { relative: 0.0 0.0; }
+					rel2 { relative: 1.0 1.0; }
+				}
+			}
+
+			part {
+				name: PART_ICON_LEFT;
+				type: RECT;
+				description {
+					state: "default" 0.0;
+					color: 0 0 0 0;
+					rel1 {
+						relative: 0.2417 0.3972;
+						to: PART_BACKGROUND;
+					}
+					rel2 {
+						relative: 0.4639 0.6112;
+						to: PART_BACKGROUND;
+					}
+				}
+			}
+
+			part {
+				name: PART_MISSED_CALLS;
+				type: IMAGE;
+				scale: 1;
+				mouse_events: 1;
+				repeat_events: 1;
+				description {
+					state: STATE_IMAGE_UNPRESSED 0.0;
+					image { normal: IMAGE_FPATH_MISSED_CALLS_UNPRESSED; }
+					rel1 {
+						relative: 0.0 0.1558;
+						to: PART_ICON_LEFT;
+					}
+					rel2 {
+						relative: 0.8125 1.0;
+						to: PART_ICON_LEFT;
+					}
+				}
+				description {
+					state: STATE_IMAGE_PRESSED 0.0;
+					inherit: STATE_IMAGE_UNPRESSED 0.0;
+					image { normal: IMAGE_FPATH_MISSED_CALLS_PRESSED; }
+				}
+			}
+
+			part {
+				name: PART_MISSED_CALLS_BADGE;
+				type: IMAGE;
+				scale: 1;
+				description {
+					state: "default" 0.0;
+					image { normal: IMAGE_FPATH_ICON_BADGE; }
+					visible: 0;
+					rel1 {
+						relative: 0.5625 0.0;
+						to: PART_ICON_LEFT;
+					}
+					rel2 {
+						relative: 1.0 0.4545;
+						to: PART_ICON_LEFT;
+					}
+				}
+			}
+
+			part {
+				name: PART_MISSED_CALLS_BADGE_COUNTER;
+				type: TEXTBLOCK;
+				description {
+					state: "default" 0.0;
+					visible: 0;
+					rel1 {
+						relative: 0.0 0.0;
+						to: PART_MISSED_CALLS_BADGE;
+					}
+					rel2 {
+						relative: 1.0 1.0;
+						to: PART_MISSED_CALLS_BADGE;
+					}
+					text {
+						style: "badge_style";
+						text: "";
+					}
+				}
+			}
+
+			part {
+				name: PART_ICON_RIGHT;
+				type: RECT;
+				description {
+					state: "default" 0.0;
+					color: 0 0 0 0;
+					rel1 {
+						relative: 0.5556 0.3972;
+						to: PART_BACKGROUND;
+					}
+					rel2 {
+						relative: 0.7778 0.6112;
+						to: PART_BACKGROUND;
+					}
+				}
+			}
+
+			part {
+				name: PART_UNREAD_MESSAGES;
+				type: IMAGE;
+				scale: 1;
+				mouse_events: 1;
+				repeat_events: 1;
+				description {
+					state: STATE_IMAGE_UNPRESSED 0.0;
+					image { normal: IMAGE_FPATH_UNREAD_MESSAGES_UNPRESSED; }
+					rel1 {
+						relative: 0.0 0.1558;
+						to: PART_ICON_RIGHT;
+					}
+					rel2 {
+						relative: 0.8125 1.0;
+						to: PART_ICON_RIGHT;
+					}
+				}
+				description {
+					state: STATE_IMAGE_PRESSED 0.0;
+					inherit: STATE_IMAGE_UNPRESSED 0.0;
+					image { normal: IMAGE_FPATH_UNREAD_MESSAGES_PRESSED; }
+				}
+			}
+
+			part {
+				name: PART_UNREAD_MESSAGES_BADGE;
+				type: IMAGE;
+				scale: 1;
+				description {
+					state: "default" 0.0;
+					image { normal: IMAGE_FPATH_ICON_BADGE; }
+					visible: 0;
+					rel1 {
+						relative: 0.5625 0.0;
+						to: PART_ICON_RIGHT;
+					}
+					rel2 {
+						relative: 1.0 0.4545;
+						to: PART_ICON_RIGHT;
+					}
+				}
+			}
+
+			part {
+				name: PART_UNREAD_MESSAGES_BADGE_COUNTER;
+				type: TEXTBLOCK;
+				description {
+					state: "default" 0.0;
+					visible: 0;
+					rel1 {
+						relative: 0.0 0.0;
+						to: PART_UNREAD_MESSAGES_BADGE;
+					}
+					rel2 {
+						relative: 1.0 1.0;
+						to: PART_UNREAD_MESSAGES_BADGE;
+					}
+					text {
+						style: "badge_style";
+						text: "";
+					}
+				}
+			}
+
+			part {
+				name: "hands_center";
+				type: IMAGE;
+				scale: 1;
+				description {
+					state: "default" 0.0;
+					image { normal: IMAGE_FPATH_HANDS_CENTER; }
+					rel1 {
+						relative: 0.4778 0.4778;
+						to: PART_BACKGROUND;
+					}
+					rel2 {
+						relative: 0.5278 0.5278;
+						to: PART_BACKGROUND;
+					}
+				}
+			}
+
+			part {
+				name: PART_HAND_HOUR;
+				type: IMAGE;
+				scale: 1;
+				description {
+					state: "default" 0.0;
+					image { normal: IMAGE_FPATH_HAND_HOUR; }
+					rel1 {
+						relative: 0.49165 0.2639;
+						to: PART_BACKGROUND;
+					}
+					rel2 {
+						relative: 0.52495 0.5;
+						to: PART_BACKGROUND;
+					}
+					map {
+						on: 1;
+						rotation {
+							center: PART_BACKGROUND;
+							x: 0.0;
+							y: 0.0;
+							z: 0.0;
+						}
+					}
+				}
+			}
+
+			part {
+				name: PART_HAND_MINUTE;
+				type: IMAGE;
+				scale: 1;
+				description {
+					state: "default" 0.0;
+					image { normal: IMAGE_FPATH_HAND_MINUTE; }
+					rel1 {
+						relative: 0.49165 0.2083;
+						to: PART_BACKGROUND;
+					}
+					rel2 {
+						relative: 0.52495 0.5;
+						to: PART_BACKGROUND;
+					}
+					map {
+						on: 1;
+						rotation {
+							center: PART_BACKGROUND;
+							x: 0.0;
+							y: 0.0;
+							z: 0.0;
+						}
+					}
+				}
+			}
+
+			part {
+				name: PART_HAND_SECOND;
+				type: IMAGE;
+				scale: 1;
+				description {
+					state: "default" 0.0;
+					visible: 1;
+					image { normal: IMAGE_FPATH_HAND_SECOND; }
+					rel1 {
+						relative: 0.4833 0.1806;
+						to: PART_BACKGROUND;
+					}
+					rel2 {
+						relative: 0.5333 0.2056;
+						to: PART_BACKGROUND;
+					}
+					map {
+						on: 1;
+						rotation {
+							center: PART_BACKGROUND;
+							x: 0.0;
+							y: 0.0;
+							z: 0.0;
+						}
+					}
+				}
+			}
+		}
+
+		programs {
+			program {
+				signal: SIGNAL_MISSED_CALLS_PRESS;
+				source: PART_MISSED_CALLS;
+				action: STATE_SET STATE_IMAGE_PRESSED 0.0;
+				target: PART_MISSED_CALLS;
+			}
+			program {
+				signal: SIGNAL_MISSED_CALLS_UNPRESS;
+				source: PART_MISSED_CALLS;
+				action: STATE_SET STATE_IMAGE_UNPRESSED 0.0;
+				target: PART_MISSED_CALLS;
+			}
+			program {
+				signal: SIGNAL_UNREAD_MESSAGES_PRESS;
+				source: PART_UNREAD_MESSAGES;
+				action: STATE_SET STATE_IMAGE_PRESSED 0.0;
+				target: PART_UNREAD_MESSAGES;
+			}
+			program {
+				signal: SIGNAL_UNREAD_MESSAGES_UNPRESS;
+				source: PART_UNREAD_MESSAGES;
+				action: STATE_SET STATE_IMAGE_UNPRESSED 0.0;
+				target: PART_UNREAD_MESSAGES;
+			}
+		}
+
+		script
+		{
+			public message(Msg_Type:type, id, ...) {
+				static ambient_mode = 0;
+				static badge_count = 0;
+				static Float:hh;
+				static Float:mm;
+				static Float:ss;
+
+				if (type == MSG_INT && id == MSG_ID_AMBIENT_MODE) {
+					ambient_mode = getarg(2);
+
+					if (ambient_mode == 0) {
+						custom_state(PART:PART_HAND_SECOND, "default", 0.0);
+						set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 1);
+						set_state(PART:PART_HAND_SECOND, "shown", 0.0);
+					} else {
+						custom_state(PART:PART_HAND_SECOND, "default", 0.0);
+						set_state_val(PART:PART_HAND_SECOND, STATE_VISIBLE, 0);
+						set_state(PART:PART_HAND_SECOND, "hidden", 0.0);
+					}
+				}
+
+				if (type == MSG_INT_SET && id == MSG_ID_SET_TIME) {
+					hh = getarg(2);
+					mm = getarg(3);
+					ss = getarg(4);
+
+					custom_state(PART:PART_HAND_HOUR, "default", 0.0);
+					set_state_val(PART:PART_HAND_HOUR, STATE_MAP_ROT_Z, hh * 360.0 / 12.0 + mm * 360.0 / 12.0 / 60.0);
+					set_state(PART:PART_HAND_HOUR, "custom", 0.0);
+
+					custom_state(PART:PART_HAND_MINUTE, "default", 0.0);
+					set_state_val(PART:PART_HAND_MINUTE, STATE_MAP_ROT_Z, mm * 360.0 / 60.0);
+					set_state(PART:PART_HAND_MINUTE, "custom", 0.0);
+
+					if (ambient_mode == 0) {
+						custom_state(PART:PART_HAND_SECOND, "default", 0.0);
+						set_state_val(PART:PART_HAND_SECOND, STATE_MAP_ROT_Z, ss * 360.0 / 60.0);
+						set_state(PART:PART_HAND_SECOND, "custom", 0.0);
+					}
+				}
+
+				if (type == MSG_INT && id == MSG_ID_SET_BADGE_MISSED_CALLS) {
+					badge_count = getarg(2);
+
+					set_badge(get_part_id(PART_MISSED_CALLS_BADGE),
+								get_part_id(PART_MISSED_CALLS_BADGE_COUNTER),
+								badge_count);
+				}
+
+				if (type == MSG_INT && id == MSG_ID_SET_BADGE_UNREAD_MESSAGES) {
+					badge_count = getarg(2);
+
+					set_badge(get_part_id(PART_UNREAD_MESSAGES_BADGE),
+								get_part_id(PART_UNREAD_MESSAGES_BADGE_COUNTER),
+								badge_count);
+				}
+			}
+
+			public set_badge(badge_part, badge_counter_part, badge_count)
+			{
+				static text_buff[5];
+
+				custom_state(badge_part, "default", 0.0);
+				custom_state(badge_counter_part, "default", 0.0);
+
+				if (badge_count == 0) {
+					set_state_val(badge_part, STATE_VISIBLE, 0);
+					set_state_val(badge_counter_part, STATE_VISIBLE, 0);
+				} else {
+					set_state_val(badge_part, STATE_VISIBLE, 1);
+					set_state_val(badge_counter_part, STATE_VISIBLE, 1);
+
+					if (badge_count < 100)
+						snprintf(text_buff, sizeof(text_buff), "%d", badge_count);
+					else
+						text_buff = "99+";
+
+					set_state_val(badge_counter_part, STATE_TEXT, text_buff);
+				}
+
+				set_state(badge_part, "custom", 0.0);
+				set_state(badge_counter_part, "custom", 0.0);
+			}
+		}
+	}
+}

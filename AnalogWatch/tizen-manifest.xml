@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<manifest xmlns="http://tizen.org/ns/packages" api-version="2.3.1" package="org.example.analogwatch2" version="1.0.0">
+    <author email="Yurii@gmail.com" href="Bla-Bla.com">Yurii</author>
+    <description>Cool</description>
+    <profile name="wearable"/>
+    <watch-application ambient-support="true" appid="org.example.analogwatch2" exec="analogwatch" hw-acceleration="on">
+        <label>A1</label>
+        <icon>flower_board_bg.png</icon>
+    </watch-application>
+    <privileges>
+        <privilege>http://tizen.org/privilege/appmanager.launch</privilege>
+        <privilege>http://tizen.org/privilege/notification</privilege>
+        <privilege>http://tizen.org/privilege/alarm.set</privilege>
+    </privileges>
+</manifest>
